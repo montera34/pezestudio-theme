@@ -101,18 +101,42 @@ add_action( 'widgets_init', '_s_widgets_init' );
 /**
  * Enqueue scripts and styles.
  */
-function _s_scripts() {
-	wp_enqueue_style( '_s-style', get_stylesheet_uri() );
+function pezestudio_scripts() {
+	wp_enqueue_style( 'pezestudio-fonts', get_template_directory_uri().'/fonts/style.css' );
+	wp_enqueue_style( 'bootstrap-css', get_template_directory_uri().'/bootstrap/css/bootstrap.min.css',array('pezestudio-fonts') );
+	wp_enqueue_style( '_s-style', get_stylesheet_uri(),array('bootstrap-css') );
 
-	wp_enqueue_script( '_s-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
+	wp_dequeue_script('jquery');
+	wp_dequeue_script('jquery-core');
+	wp_dequeue_script('jquery-migrate');
+	wp_enqueue_script('jquery', false, array(), false, true);
+	wp_enqueue_script('jquery-core', false, array(), false, true);
+	wp_enqueue_script('jquery-migrate', false, array(), false, true);
+	wp_enqueue_script( 'bootstrap-js', get_template_directory_uri() . '/bootstrap/js/bootstrap.min.js', array('jquery'), '3.7.3', true );
+//	wp_enqueue_script( '_s-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
 
-	wp_enqueue_script( '_s-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20151215', true );
+//	wp_enqueue_script( '_s-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20151215', true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}
 }
-add_action( 'wp_enqueue_scripts', '_s_scripts' );
+add_action( 'wp_enqueue_scripts', 'pezestudio_scripts' );
+
+// load scripts for IE compatibility
+function pezestudio_extra_scripts_styles() {
+	echo "
+	<meta name='viewport' content='width=device-width, initial-scale=1'>
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	<script src='https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js'></script>
+	<script src='https://oss.maxcdn.com/respond/1.4.2/respond.min.js'></script>
+	<![endif]-->
+	";
+}
+/* Load scripts for IE compatibility */
+add_action('wp_head','pezestudio_extra_scripts_styles',999);
 
 /**
  * Implement the Custom Header feature.
