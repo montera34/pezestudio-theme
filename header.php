@@ -21,30 +21,43 @@
 </head>
 
 <body <?php body_class(); ?>>
-<div id="page" class="site">
-	<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', '_s' ); ?></a>
 
-	<header id="masthead" class="site-header" role="banner">
-		<div class="site-branding">
-			<?php
-			if ( is_front_page() && is_home() ) : ?>
-				<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
-			<?php else : ?>
-				<p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
-			<?php
-			endif;
+<header id="masthead" class="site-header" role="banner">
+	<nav id="top-navbar" class="navbar navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#top-navbar-collapse">
+				<span class="sr-only">Show/hide menu</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="<?php echo esc_url( home_url( '/' )); ?>"><img src="<?php echo PEZESTUDIO_BLOGTHEME; ?>/images/pezestudio.imago.png" alt="<?php echo PEZESTUDIO_BLOGNAME; ?>" /></a>
+		</div>
+		<div class="collapse navbar-collapse" id="top-navbar-collapse">
+			<?php $location = "primary";
+			if ( has_nav_menu( $location ) ) {
+				$args = array(
+					'theme_location'  => $location,
+					'container' => false,
+					'menu_id' => 'navbar-primary',
+					'menu_class' => 'nav navbar-nav navbar-left'
+				);
+				wp_nav_menu( $args );
+			}
+//			$location = "lang";
+//			if ( has_nav_menu( $location ) ) {
+//				$args = array(
+//					'theme_location'  => $location,
+//					'container' => false,
+//					'menu_id' => 'navbar-language',
+//					'menu_class' => 'nav navbar-nav navbar-right'
+//				);
+//				wp_nav_menu( $args );
+//			} ?>
+		</div>
+	</div>
+	</nav>
+</header><!-- #masthead -->
 
-			$description = get_bloginfo( 'description', 'display' );
-			if ( $description || is_customize_preview() ) : ?>
-				<p class="site-description"><?php echo $description; /* WPCS: xss ok. */ ?></p>
-			<?php
-			endif; ?>
-		</div><!-- .site-branding -->
-
-		<nav id="site-navigation" class="main-navigation" role="navigation">
-			<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false"><?php esc_html_e( 'Primary Menu', '_s' ); ?></button>
-			<?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_id' => 'primary-menu' ) ); ?>
-		</nav><!-- #site-navigation -->
-	</header><!-- #masthead -->
-
-	<div id="content" class="site-content">
+<div id="content" class="site-content">
