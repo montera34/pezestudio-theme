@@ -7,7 +7,7 @@
  * @package _s
  */
 
-if ( ! function_exists( '_s_setup' ) ) :
+if ( ! function_exists( 'pezestudio_setup' ) ) :
 /**
  * Sets up theme defaults and registers support for various WordPress features.
  *
@@ -15,7 +15,24 @@ if ( ! function_exists( '_s_setup' ) ) :
  * runs before the init hook. The init hook is too late for some features, such
  * as indicating support for post thumbnails.
  */
-function _s_setup() {
+function pezestudio_setup() {
+
+	// theme global vars
+	if (!defined('PEZESTUDIO_BLOGNAME'))
+	    define('PEZESTUDIO_BLOGNAME', get_bloginfo('name'));
+
+	if (!defined('PEZESTUDIO_BLOGDESC'))
+	    define('PEZESTUDIO_BLOGDESC', get_bloginfo('description','display'));
+
+	if (!defined('PEZESTUDIO_BLOGURL'))
+	    define('PEZESTUDIO_BLOGURL', esc_url( home_url( '/' ) ));
+
+	if (!defined('PEZESTUDIO_BLOGTHEME'))
+	    define('PEZESTUDIO_BLOGTHEME', get_bloginfo('template_directory'));
+
+	if (!defined('PEZESTUDIO_BGIMAGE_AMMOUNT'))
+	    define('PEZESTUDIO_BGIMAGE_AMMOUNT', '5' );
+
 	/*
 	 * Make theme available for translation.
 	 * Translations can be filed in the /languages/ directory.
@@ -66,7 +83,7 @@ function _s_setup() {
 	) ) );
 }
 endif;
-add_action( 'after_setup_theme', '_s_setup' );
+add_action( 'after_setup_theme', 'pezestudio_setup' );
 
 /**
  * Set the content width in pixels, based on the theme's design and stylesheet.
@@ -136,6 +153,9 @@ function pezestudio_extra_scripts_styles() {
 	<script src='https://oss.maxcdn.com/respond/1.4.2/respond.min.js'></script>
 	<![endif]-->
 	";
+	if ( is_user_logged_in() ) {
+		echo "<style media='screen' type='text/css'>#top-navbar{margin-top: 32px;}</style>";
+	}
 }
 /* Load scripts for IE compatibility */
 add_action('wp_head','pezestudio_extra_scripts_styles',999);
@@ -164,3 +184,31 @@ require get_template_directory() . '/inc/customizer.php';
  * Load Jetpack compatibility file.
  */
 require get_template_directory() . '/inc/jetpack.php';
+
+/**
+ * Multiple Featured Images
+ * it depends on MFI Reloaded plugin
+ */
+function pezestudio_register_custom_images_fullpage() {
+	$label_name = __('Background image','_s');
+	$label_set = __('Set background image','_s');
+	$label_remove = __('Remove background image','_s');
+	$count = 1;
+	$bgimages = array();
+	while ( PEZESTUDIO_BGIMAGE_AMMOUNT >= $count ) {
+		$bgimages['bgimage-'.$count] = array(
+			'post_types' => array('page'),
+			'position' => 'normal',
+			'labels' => array(
+				'name' => $label_name.' '.$count,
+				'set' => $label_set,
+				'remove' => $label_remove,
+				'popup_title' => $label_set,
+				'popup_select' => $label_set
+			)
+		);
+		$count++;
+	}
+	add_theme_support('mfi-reloaded', $bgimages );
+}
+add_action('after_setup_theme', 'pezestudio_register_custom_images_fullpage');
