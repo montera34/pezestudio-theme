@@ -121,7 +121,7 @@ add_action( 'widgets_init', '_s_widgets_init' );
 function pezestudio_scripts() {
 	wp_enqueue_style( 'pezestudio-fonts', get_template_directory_uri().'/fonts/style.css' );
 	wp_enqueue_style( 'bootstrap-css', get_template_directory_uri().'/bootstrap/css/bootstrap.min.css',array('pezestudio-fonts'),'3.7.3' );
-	wp_enqueue_style( 'fullpage-css', get_template_directory_uri().'/fullpagejs/jquery.fullPage.css',array('bootstrap-css'),'2.8.6' );
+	if ( is_page_template('page-fullpage.php') ) wp_enqueue_style( 'fullpage-css', get_template_directory_uri().'/fullpagejs/jquery.fullPage.css',array('bootstrap-css'),'2.8.6' );
 	wp_enqueue_style( 'pezestudio-css', get_stylesheet_uri(),array('bootstrap-css') );
 
 	wp_dequeue_script('jquery');
@@ -131,11 +131,10 @@ function pezestudio_scripts() {
 	wp_enqueue_script('jquery-core', false, array(), false, true);
 	wp_enqueue_script('jquery-migrate', false, array(), false, true);
 	wp_enqueue_script( 'bootstrap-js', get_template_directory_uri() . '/bootstrap/js/bootstrap.min.js', array('jquery'), '3.7.3', true );
-	wp_enqueue_script( 'fullpage-js', get_template_directory_uri() . '/fullpagejs/jquery.fullPage.min.js', array('jquery'), '2.8.6', true );
-//	wp_enqueue_script( '_s-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
-
-//	wp_enqueue_script( '_s-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20151215', true );
-
+	if ( is_page_template('page-fullpage.php') ) {
+		wp_enqueue_script( 'fullpage-js', get_template_directory_uri() . '/fullpagejs/jquery.fullPage.min.js', array('jquery'), '2.8.6', true );
+		wp_enqueue_script( 'page-fullpage-js', get_template_directory_uri() . '/js/page-fullpage.js', array('fullpage-js'), '0.1', true );
+	}
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}
@@ -154,7 +153,7 @@ function pezestudio_extra_scripts_styles() {
 	<![endif]-->
 	";
 	if ( is_user_logged_in() ) {
-		echo "<style media='screen' type='text/css'>#top-navbar{margin-top: 32px;}</style>";
+		echo "<style media='screen' type='text/css'>html {margin-top: 0px !important;} #top-navbar{margin-top: 32px;}</style>";
 	}
 }
 /* Load scripts for IE compatibility */
@@ -184,6 +183,88 @@ require get_template_directory() . '/inc/customizer.php';
  * Load Jetpack compatibility file.
  */
 require get_template_directory() . '/inc/jetpack.php';
+
+/**
+ * Extra fields for attachment post type
+ */
+function pezestudio_metabox_attachment() {
+	add_meta_box(
+		'_pezestudio_metabox_attachment_url', // ID
+		'URL', // title
+		'pezestudio_metabox_attachment_render', // callback function
+		'attachment', // post type
+		'normal', // context: normal, side, advanced
+		'default' // priority: high, core, default, low
+	);
+}
+add_action( 'add_meta_boxes', 'pezestudio_metabox_attachment', 10, 2 );
+
+/**
+ * Prints the box content.
+ * 
+ * @param WP_Post $post The object for the current post/page.
+ */
+function pezestudio_metabox_attachment_render( $post ) {
+
+	// Add an nonce field so we can check for it later.
+	wp_nonce_field( 'pezestudio_metabox_attachment_render', 'pezestudio_metabox_attachment_render_nonce' );
+
+	/*
+	* Use get_post_meta() to retrieve an existing value
+	* from the database and use the value for the form.
+	*/
+	$value = get_post_meta( $post->ID, '_pezestudio_metabox_attachment_url', true );
+
+	echo '<label for="_pezestudio_metabox_attachment_url">URL</label> ';
+	echo '<input type="text" id="_pezestudio_metabox_attachment_url" name="_pezestudio_metabox_attachment_url" value="' . esc_attr( $value ) . '" size="50%" />';
+
+}
+
+/**
+ * When the post is saved, saves our custom data.
+ *
+ * @param int $post_id The ID of the post being saved.
+ */
+function pezestudio_metabox_attachment_save( $post_id ) {
+
+	/*
+	* We need to verify this came from the our screen and with proper authorization,
+	* because save_post can be triggered at other times.
+	*/
+
+	// Check if our nonce is set.
+	if ( ! isset( $_POST['pezestudio_metabox_attachment_render_nonce'] ) )
+		return $post_id;
+
+	$nonce = $_POST['pezestudio_metabox_attachment_render_nonce'];
+
+	// Verify that the nonce is valid.
+	if ( ! wp_verify_nonce( $nonce, 'pezestudio_metabox_attachment_render' ) )
+		return $post_id;
+
+	// If this is an autosave, our form has not been submitted, so we don't want to do anything.
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) 
+		return $post_id;
+
+	// Check the user's permissions.
+	if ( 'page' == $_POST['post_type'] ) {
+		if ( ! current_user_can( 'edit_page', $post_id ) )
+			return $post_id;
+  
+	} else {
+		if ( ! current_user_can( 'edit_post', $post_id ) )
+			return $post_id;
+	}
+
+	/* OK, its safe for us to save the data now. */
+
+	// Sanitize user input.
+	$mydata = sanitize_text_field( $_POST['_pezestudio_metabox_attachment_url'] );
+
+	// Update the meta field in the database.
+	update_post_meta( $post_id, '_pezestudio_metabox_attachment_url', $mydata );
+}
+add_action( 'save_post', 'pezestudio_metabox_attachment_save' );
 
 /**
  * Multiple Featured Images

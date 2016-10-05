@@ -20,7 +20,44 @@ Underscores is distributed under the terms of the GNU GPL v2 or later.
 
 */
 
+/* JOKERS */
+.vspace {
+	padding: 30px;
+}
+.pez-bg {
+	background-color: #f60;
+	color: #fff;
+	display: inline-block;
+	padding: 3px 5px;
+}
+.main-tit {
+	text-transform: uppercase;
+	font-size: 13px;
+	margin: 0;
+}
+.pez-bg a {
+	background-color: #f60;
+	color: #fff;
+}
+.pez-bg a:hover {
+	text-decoration: none;
+	color: #000;
+}
+
+
 /* HEADER */
 .navbar-brand {
 	padding: 5px 15px;
 }
+
+/* FULL PAGE TEMPLATE */
+.fp-tableCell {
+	vertical-align: bottom;
+}
+.fp-slide {
+	background-size: cover;
+}
+.fp-slide-desc {
+	margin-top: 10px;
+}
+
