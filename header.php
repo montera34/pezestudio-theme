@@ -41,20 +41,24 @@
 					'theme_location'  => $location,
 					'container' => false,
 					'menu_id' => 'navbar-primary',
-					'menu_class' => 'nav navbar-nav navbar-left'
+					'menu_class' => 'nav navbar-nav navbar-left navbar-menu'
 				);
 				wp_nav_menu( $args );
 			}
-//			$location = "lang";
-//			if ( has_nav_menu( $location ) ) {
-//				$args = array(
-//					'theme_location'  => $location,
-//					'container' => false,
-//					'menu_id' => 'navbar-language',
-//					'menu_class' => 'nav navbar-nav navbar-right'
-//				);
-//				wp_nav_menu( $args );
-//			} ?>
+			$location = "lang";
+			if ( has_nav_menu( $location ) ) {
+				$args = array(
+					'theme_location'  => $location,
+					'container' => false,
+					'menu_id' => 'navbar-language',
+					'menu_class' => 'nav navbar-nav navbar-left navbar-menu'
+				);
+				wp_nav_menu( $args );
+			} ?>
+			<ul id="navbar-social" class="nav navbar-nav navbar-left">
+				<li><a href="https://twitter.com/pezestudio"><i class="fa fa-2x fa-facebook-square" aria-hidden="true"></i></a></li>
+				<li><a href="https://www.facebook.com/pezestudio"><i class="fa fa-2x fa-twitter" aria-hidden="true"></i></a></li>
+			</ul>
 		</div>
 	</div>
 	</nav>

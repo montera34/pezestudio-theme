@@ -62,6 +62,7 @@ function pezestudio_setup() {
 	// This theme uses wp_nav_menu() in one location.
 	register_nav_menus( array(
 		'primary' => esc_html__( 'Primary', '_s' ),
+		'lang' => esc_html__( 'Languages', '_s' ),
 	) );
 
 	/*
@@ -120,6 +121,7 @@ add_action( 'widgets_init', '_s_widgets_init' );
  */
 function pezestudio_scripts() {
 	wp_enqueue_style( 'pezestudio-fonts', get_template_directory_uri().'/fonts/style.css' );
+	wp_enqueue_style( 'fa-css', get_template_directory_uri().'/font-awesome/css/font-awesome.min.css',false,'4.6.3' );
 	wp_enqueue_style( 'bootstrap-css', get_template_directory_uri().'/bootstrap/css/bootstrap.min.css',array('pezestudio-fonts'),'3.7.3' );
 	if ( is_page_template('page-fullpage.php') ) wp_enqueue_style( 'fullpage-css', get_template_directory_uri().'/fullpagejs/jquery.fullPage.css',array('bootstrap-css'),'2.8.6' );
 	wp_enqueue_style( 'pezestudio-css', get_stylesheet_uri(),array('bootstrap-css') );
