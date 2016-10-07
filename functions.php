@@ -295,3 +295,20 @@ function pezestudio_register_custom_images_fullpage() {
 	add_theme_support('mfi-reloaded', $bgimages );
 }
 add_action('after_setup_theme', 'pezestudio_register_custom_images_fullpage');
+
+function pezestudio_get_searchform($post_type,$form_classes,$submit_btn) {
+	
+	$filters_out = ( $post_type != false ) ? '<input type="hidden" name="post_type" value="'.$post_type.'" />' : '';
+	$submit_out = ( $submit_btn != false ) ? '<input type="submit" id="searchsubmit" value="Search" />' : '';
+	$form_out = '
+	<form method="get" id="searchform" class="'.$form_classes.'" action="'.get_home_url().'/" role="search">
+	<div class="form-group">
+		'.$filters_out.'
+		<label class="sr-only" for="s">'.__("Search projects","_s").'</label>
+		<input class="form-control input-sm" type="text" value="" name="s" id="s" placeholder="'.__("Search projects","_s").'" />
+		'.$submit_out.'
+	</div>
+	</form>
+	';
+	echo $form_out; return;
+}

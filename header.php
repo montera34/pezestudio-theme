@@ -59,6 +59,7 @@
 				<li><a href="https://twitter.com/pezestudio"><i class="fa fa-2x fa-facebook-square" aria-hidden="true"></i></a></li>
 				<li><a href="https://www.facebook.com/pezestudio"><i class="fa fa-2x fa-twitter" aria-hidden="true"></i></a></li>
 			</ul>
+			<?php pezestudio_get_searchform(false,'navbar-form navbar-left',false); ?>
 		</div>
 	</div>
 	</nav>
