@@ -27,10 +27,10 @@ if ($header_height != '' ) {
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<header<?php echo $header_style_out; ?> class="entry-header wrap">
+	<header<?php echo $header_style_out; ?> class="wrap">
 		<div class="wrap-inner vspace">
 		<div class="container-fluid">
-		<div class="row">
+		<div id="entry-header" class="row">
 		<div class="col-md-6 col-md-offset-3">
 			<?php the_title( '<h1 class="pez-bg main-tit">', '</h1>' ); ?>
 			<?php if ( get_edit_post_link() ) :
@@ -42,7 +42,7 @@ if ($header_height != '' ) {
 		</div>
 	</header><!-- .entry-header -->
 
-	<div class="entry-content container-fluid">
+	<div id="entry-content" class="entry-content container-fluid">
 		<div class="row vspace">
 		<div class="col-md-6 col-md-offset-3">
 		<?php

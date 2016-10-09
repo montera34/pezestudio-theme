@@ -1,8 +1,18 @@
 // set header height as a percentage of browser window
 function pezestudioSetHeight(target) {
-	var winHeight = jQuery(window).height();
-	var headerHeight = ( headerHeightPercent * winHeight ) / 100;
+	winHeight = jQuery(window).height();
+	headerHeight = ( headerHeightPercent * winHeight ) / 100;
 	jQuery(target).css( "height", headerHeight );
+}
+// skip header with a smoth scroll transition
+function pezestudioSkipHeader() {
+	jQuery('#entry-header').append('<div class="col-md-3"><div class="pull-right"><a id="skipHeader" href="#entry-content"><i class="fa fa-2x fa-angle-down" aria-hidden="true"></i></a></div></div>');
+	jQuery('#skipHeader').click(function() {
+		var target = jQuery(this.hash);
+		jQuery('html, body').animate({
+			scrollTop: target.offset().top
+		}, 1000);
+	});
 }
 // trigger an event when browser window resizes
 jQuery(window).resize(function() {
@@ -15,7 +25,11 @@ jQuery(window).resize(function() {
 jQuery(window).bind("resizeEnd", function() {
 	pezestudioSetHeight('.wrap');
 });
-// set height when document loads
+// when document loads
 jQuery(document).ready(function($) {
+	// set height 
 	pezestudioSetHeight('.wrap');
+	// if bg image is set to 100% height,
+	// add skip to content button
+	if ( headerHeightPercent == '100' ) { pezestudioSkipHeader(); }
 });
