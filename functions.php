@@ -137,11 +137,20 @@ function pezestudio_scripts() {
 		wp_enqueue_script( 'fullpage-js', get_template_directory_uri() . '/fullpagejs/jquery.fullPage.min.js', array('jquery'), '2.8.6', true );
 		wp_enqueue_script( 'page-fullpage-js', get_template_directory_uri() . '/js/page-fullpage.js', array('fullpage-js'), '0.1', true );
 	}
+	if ( is_page() ) {
+		wp_enqueue_script( 'header-bgimage-js', get_template_directory_uri() . '/js/header-bgimage.js', array('jquery'), '0.1', true );
+	}
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}
 }
 add_action( 'wp_enqueue_scripts', 'pezestudio_scripts' );
+
+function pezestudio_scripts_admin() {
+	wp_enqueue_style( 'wp-color-picker' ); 
+	wp_enqueue_script( 'wp-color-picker' ); 
+}
+add_action( 'admin_enqueue_scripts', 'pezestudio_scripts_admin' );
 
 // load scripts for IE compatibility
 function pezestudio_extra_scripts_styles() {
@@ -296,6 +305,8 @@ function pezestudio_register_custom_images_fullpage() {
 }
 add_action('after_setup_theme', 'pezestudio_register_custom_images_fullpage');
 
+/*
+ * SEARCH FORM OUTPUT */
 function pezestudio_get_searchform($post_type,$form_classes,$submit_btn) {
 	
 	$filters_out = ( $post_type != false ) ? '<input type="hidden" name="post_type" value="'.$post_type.'" />' : '';
@@ -312,3 +323,115 @@ function pezestudio_get_searchform($post_type,$form_classes,$submit_btn) {
 	';
 	echo $form_out; return;
 }
+
+
+/**
+ * EXTRA FIELDS FOR
+ * FULL WIDTH IMAGE HEADER */
+function pezestudio_metabox_header_data($post_type) {
+	if ( $post_type == 'page' )
+		$fields = array(
+			'_pezestudio_header_height' => array(
+				'name' => __('Header height','_s'),
+				'type' => 'text',
+				'description' => __('% of screen height','_s')
+			),
+			'_pezestudio_header_bgcolor' => array(
+				'name' => __('Background color','_s'),
+				'type' => 'color',
+				'description' => __('In case featured image not set.','_s')
+			)
+		);
+	return $fields;
+}
+
+function pezestudio_metabox_header() {
+	add_meta_box(
+		'_pezestudio_metabox_header', // ID
+		__('Header settings','_s'), // title
+		'pezestudio_metabox_header_render', // callback function
+		'page', // post type
+		'side', // context: normal, side, advanced
+		'low' // priority: high, core, default, low
+	);
+}
+add_action( 'add_meta_boxes', 'pezestudio_metabox_header', 10, 2 );
+
+/**
+ * Prints the box content.
+ * 
+ * @param WP_Post $post The object for the current post/page.
+ */
+function pezestudio_metabox_header_render( $post ) {
+
+	// Add an nonce field so we can check for it later.
+	wp_nonce_field( 'pezestudio_metabox_header_render', 'pezestudio_metabox_header_render_nonce' );
+
+	/*
+	* Use get_post_meta() to retrieve an existing value
+	* from the database and use the value for the form.
+	*/
+	foreach ( pezestudio_metabox_header_data('page') as $id => $data ) {
+		$value = get_post_meta( $post->ID, $id, true );
+
+		echo '<fieldset>
+			<label for="'.$id.'">'.$data["name"].'</label><br />
+			<input type="text" class="'.$id.'" name="'.$id.'" value="' . esc_attr( $value ) . '" /><br /><span class="howto">'.$data["description"].'</span>';
+ 		if ( $data['type'] == 'color' ) {
+			echo '<script type="text/javascript">
+			jQuery(document).ready(function($) {
+				$(".'.$id.'").wpColorPicker();
+			});
+			</script>';
+		}
+		echo '</fieldset>';
+	}
+}
+
+/**
+ * When the post is saved, saves our custom data.
+ *
+ * @param int $post_id The ID of the post being saved.
+ */
+function pezestudio_metabox_header_save( $post_id ) {
+
+	/*
+	* We need to verify this came from the our screen and with proper authorization,
+	* because save_post can be triggered at other times.
+	*/
+
+	// Check if our nonce is set.
+	if ( ! isset( $_POST['pezestudio_metabox_header_render_nonce'] ) )
+		return $post_id;
+
+	$nonce = $_POST['pezestudio_metabox_header_render_nonce'];
+
+	// Verify that the nonce is valid.
+	if ( ! wp_verify_nonce( $nonce, 'pezestudio_metabox_header_render' ) )
+		return $post_id;
+
+	// If this is an autosave, our form has not been submitted, so we don't want to do anything.
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) 
+		return $post_id;
+
+	// Check the user's permissions.
+	if ( 'page' == $_POST['post_type'] ) {
+		if ( ! current_user_can( 'edit_page', $post_id ) )
+			return $post_id;
+  
+	} else {
+		if ( ! current_user_can( 'edit_post', $post_id ) )
+			return $post_id;
+	}
+
+	/* OK, its safe for us to save the data now. */
+
+	foreach ( pezestudio_metabox_header_data('page') as $id => $data ) {
+		// Sanitize user input.
+		$value = sanitize_text_field( $_POST[$id] );
+		// Update the meta field in the database.
+		update_post_meta( $post_id, $id, $value );
+	}	
+}
+add_action( 'save_post', 'pezestudio_metabox_header_save' );
+
