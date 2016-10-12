@@ -34,7 +34,7 @@ Underscores is distributed under the terms of the GNU GPL v2 or later.
 	padding: 30px 0;
 }
 .pez-bg {
-	background-color: #f60;
+	background-color: #f60 !important;
 	color: #fff;
 	display: inline-block;
 	padding: 3px 5px;
@@ -103,6 +103,32 @@ Underscores is distributed under the terms of the GNU GPL v2 or later.
 }
 .navbar-form .form-control {
 	box-shadow: none;
+}
+.current-menu-item>a {
+	background-color: #f60 !important;
+	color: #fff;
+}
+/* Dropdown Menu */
+#pre-nav .navbar-toggle {
+	float: left;
+	margin-top: 10px;
+	margin-left: 5px;
+}
+ul.sub-menu {
+	z-index: 1000;
+	position: absolute;
+	width: 170px;
+	list-style: none;
+	margin: 0 0 1px 0;
+	padding: 0;
+	display: none;
+}
+.sub-menu li {
+	padding: 0;
+}
+.sub-menu li a {
+	margin-top: 1px;
+	display: block;
 }
 
 /* FULL PAGE TEMPLATE */

@@ -132,12 +132,13 @@ function pezestudio_scripts() {
 	wp_enqueue_script('jquery', false, array(), false, true);
 	wp_enqueue_script('jquery-core', false, array(), false, true);
 	wp_enqueue_script('jquery-migrate', false, array(), false, true);
+	wp_enqueue_script( 'menu', get_template_directory_uri() . '/js/dropdown.hover.js', array('jquery'), '0.1', true );
 	wp_enqueue_script( 'bootstrap-js', get_template_directory_uri() . '/bootstrap/js/bootstrap.min.js', array('jquery'), '3.7.3', true );
 	if ( is_page_template('page-fullpage.php') ) {
 		wp_enqueue_script( 'fullpage-js', get_template_directory_uri() . '/fullpagejs/jquery.fullPage.min.js', array('jquery'), '2.8.6', true );
 		wp_enqueue_script( 'page-fullpage-js', get_template_directory_uri() . '/js/page-fullpage.js', array('fullpage-js'), '0.1', true );
 	}
-	if ( is_page() ) {
+	if ( is_page() && !is_page_template('page-fullpage.php') ) {
 		wp_enqueue_script( 'header-bgimage-js', get_template_directory_uri() . '/js/header-bgimage.js', array('jquery'), '0.1', true );
 	}
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
