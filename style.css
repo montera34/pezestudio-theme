@@ -151,3 +151,6 @@ ul.sub-menu {
 #skipHeader:hover {
 	background-color: rgba(255,255,255,1);
 }
+.fp-slide-desc .pez-bg p:last-child {
+	margin: 0;
+}
