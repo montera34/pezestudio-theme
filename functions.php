@@ -138,7 +138,7 @@ function pezestudio_scripts() {
 		wp_enqueue_script( 'fullpage-js', get_template_directory_uri() . '/fullpagejs/jquery.fullPage.min.js', array('jquery'), '2.8.6', true );
 		wp_enqueue_script( 'page-fullpage-js', get_template_directory_uri() . '/js/page-fullpage.js', array('fullpage-js'), '0.1', true );
 	}
-	if ( is_page() && !is_page_template('page-fullpage.php') ) {
+	if ( is_page() && !is_page_template('page-fullpage.php') || is_tax() ) {
 		wp_enqueue_script( 'header-bgimage-js', get_template_directory_uri() . '/js/header-bgimage.js', array('jquery'), '0.1', true );
 	}
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
@@ -436,3 +436,32 @@ function pezestudio_metabox_header_save( $post_id ) {
 }
 add_action( 'save_post', 'pezestudio_metabox_header_save' );
 
+// Get attachment ID
+// from URL
+// https://philipnewcomer.net/2012/11/get-the-attachment-id-from-an-image-url-in-wordpress/
+function pezestudio_get_attachment_id_from_url( $attachment_url = '' ) {
+	global $wpdb;
+	$attachment_id = false;
+
+	// If there is no url, return.
+	if ( '' == $attachment_url )
+		return;
+
+	// Get the upload directory paths
+	$upload_dir_paths = wp_upload_dir();
+
+	// Make sure the upload path base directory exists in the attachment URL, to verify that we're working with a media library image
+	if ( false !== strpos( $attachment_url, $upload_dir_paths['baseurl'] ) ) {
+
+		// If this is the URL of an auto-generated thumbnail, get the URL of the original image
+		$attachment_url = preg_replace( '/-\d+x\d+(?=\.(jpg|jpeg|png|gif)$)/i', '', $attachment_url );
+
+		// Remove the upload path base directory from the attachment URL
+		$attachment_url = str_replace( $upload_dir_paths['baseurl'] . '/', '', $attachment_url );
+
+		// Finally, run a custom database query to get the attachment ID from the modified attachment URL
+		$attachment_id = $wpdb->get_var( $wpdb->prepare( "SELECT wposts.ID FROM $wpdb->posts wposts, $wpdb->postmeta wpostmeta WHERE wposts.ID = wpostmeta.post_id AND wpostmeta.meta_key = '_wp_attached_file' AND wpostmeta.meta_value = '%s' AND wposts.post_type = 'attachment'", $attachment_url ) );
+
+	}
+	return $attachment_id;
+}
