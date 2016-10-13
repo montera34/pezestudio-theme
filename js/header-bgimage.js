@@ -2,6 +2,7 @@
 function pezestudioSetHeight(target) {
 	winHeight = jQuery(window).height();
 	headerHeight = ( headerHeightPercent * winHeight ) / 100;
+	if ( headerHeight < 150 ) { headerHeight = 150; }
 	jQuery(target).css( "height", headerHeight );
 }
 // skip header with a smoth scroll transition

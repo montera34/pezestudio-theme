@@ -138,7 +138,7 @@ function pezestudio_scripts() {
 		wp_enqueue_script( 'fullpage-js', get_template_directory_uri() . '/fullpagejs/jquery.fullPage.min.js', array('jquery'), '2.8.6', true );
 		wp_enqueue_script( 'page-fullpage-js', get_template_directory_uri() . '/js/page-fullpage.js', array('fullpage-js'), '0.1', true );
 	}
-	if ( is_page() && !is_page_template('page-fullpage.php') || is_tax(array('line','topic','country','city','status')) || is_post_type_archive('projects') ) {
+	if ( is_page() && !is_page_template('page-fullpage.php') || is_tax(array('line','topic','country','city','status')) ) {
 		wp_enqueue_script( 'header-bgimage-js', get_template_directory_uri() . '/js/header-bgimage.js', array('jquery'), '0.1', true );
 	}
 	if ( is_tax(array('line','topic','country','city','status')) || is_post_type_archive('projects') ) {

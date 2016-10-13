@@ -8,29 +8,8 @@
  */
 
 get_header();
-
-// TERM VARS
-//// 
-$header_text_class = "col-md-9";
-$term_id = get_queried_object()->term_id;
-$bgi_src = get_term_meta($term_id,'_pezestudio_header_bgimage',true);
-$header_bgcolor = get_term_meta($term_id,'_pezestudio_header_bgcolor',true);
-$header_height = get_term_meta($term_id,'_pezestudio_header_height',true);
-$header_style_out = "";
-if ( $bgi_src != '' ) {
-	$bgi_id = pezestudio_get_attachment_id_from_url( $bgi_src );
-	$bgi_meta = wp_get_attachment_metadata($bgi_id);
-	$header_style_out .= "background-image: url('".$bgi_src."'); background-size: cover;";
-}
-if ( $header_bgcolor != '' ) {
-	$header_style_out .= "background-color: ".$header_bgcolor.";";
-}
-$header_style_out = ( $header_style_out == '' ) ? '' : ' style="'.$header_style_out.'"';
-
-if ( $header_height != '' ) {
-	$js_out = "<script type='text/javascript'>var headerHeightPercent=".$header_height."</script>";
-} else { $js_out = "<script type='text/javascript'>var headerHeightPercent=25</script>"; }
 ?>
+
 
 	<div id="primary" class="content-area">
 		<main id="main" class="site-main" role="main">
@@ -38,22 +17,18 @@ if ( $header_height != '' ) {
 		<?php
 		if ( have_posts() ) : ?>
 
-			<header<?php echo $header_style_out; ?> class="wrap">
-				<div class="wrap-inner vspace">
-				<div class="container">
+			<header class="container">
 				<div id="entry-header" class="row">
-				<div class="<?php echo $header_text_class; ?>">
-					<?php the_archive_title( '<h1 class="pez-bg main-tit">', '</h1>' );
+				<div class="col-md-9">
+					<?php the_archive_title( '<h1 class="pez-bg main-tit hidden">', '</h1>' );
 					the_archive_description( '<div class="row"><div class="col-md-12 fp-slide-desc"><div class="pez-bg">', '</div></div></div>' ); ?>
 				</div>
 				</div>
-				</div>
-				</div>
-				<?php echo $js_out; ?>
 			</header><!-- .wrap -->
 
 			<div id="entry-content" class="container">
 			<div class="row grid">
+
 			<?php $count = 0;
 			/* Start the Loop */
 			while ( have_posts() ) : the_post();
@@ -72,8 +47,7 @@ if ( $header_height != '' ) {
 					<div class="grid-item col-md-3 col-sm-4'.$class.'">
 						<a href="'.$perma.'">'.$img_out.'<span class="grid-tit white-bg">'.$tit.'</span></a>
 					</div>';
-
-			
+		
 			endwhile;
 
 			the_posts_navigation();
@@ -83,7 +57,6 @@ if ( $header_height != '' ) {
 
 		endif; ?>
 
-			</div><!-- .entry-content -->
 		</main><!-- #main -->
 	</div><!-- #primary -->
 
