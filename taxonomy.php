@@ -9,6 +9,8 @@
 
 get_header();
 
+// TERM VARS
+//// 
 $header_text_class = "col-md-9";
 $term_id = get_queried_object()->term_id;
 $bgi_src = get_term_meta($term_id,'_pezestudio_header_bgimage',true);
@@ -28,6 +30,10 @@ $header_style_out = ( $header_style_out == '' ) ? '' : ' style="'.$header_style_
 if ( $header_height != '' ) {
 	$js_out = "<script type='text/javascript'>var headerHeightPercent=".$header_height."</script>";
 } else { $js_out = ''; }
+
+// PROJECTS LOOP VARS
+////
+
 ?>
 
 	<div id="primary" class="content-area">
@@ -38,7 +44,7 @@ if ( $header_height != '' ) {
 
 			<header<?php echo $header_style_out; ?> class="wrap">
 				<div class="wrap-inner vspace">
-				<div class="container-fluid">
+				<div class="container">
 				<div id="entry-header" class="row">
 				<div class="<?php echo $header_text_class; ?>">
 					<?php the_archive_title( '<h1 class="pez-bg main-tit">', '</h1>' );
@@ -50,18 +56,28 @@ if ( $header_height != '' ) {
 				<?php echo $js_out; ?>
 			</header><!-- .wrap -->
 
-			<div id="entry-content" class="entry-content container-fluid">
-			<?php
+			<div id="entry-content" class="container">
+			<div class="row grid">
+			<?php $count = 0;
 			/* Start the Loop */
 			while ( have_posts() ) : the_post();
+				$count++;
+				$perma = get_permalink();
+					$tit = get_the_title();
+					if ( has_post_thumbnail() ) {
+//	$pi_id = get_post_thumbnail_id( $post->ID );
+//	$pi_src = wp_get_attachment_url($bgi_id);
+//	$pi_meta = wp_get_attachment_metadata($bgi_id);
+//	$p_out = '<img src="'.$bgi_src.'" alt="";
+						$img_out = get_the_post_thumbnail($post,'medium',array( 'class' => 'img-responsive' ));
+					} else { $img_out = ''; }
+					if ( $count == 1 ) { $class = ' grid-sizer'; } else { $class = ''; }
+					echo'
+					<div class="grid-item col-md-3 col-sm-4'.$class.'">
+						<a href="'.$perma.'">'.$img_out.'<span class="grid-tit white-bg">'.$tit.'</span></a>
+					</div>';
 
-				/*
-				 * Include the Post-Format-specific template for the content.
-				 * If you want to override this in a child theme, then include a file
-				 * called content-___.php (where ___ is the Post Format name) and that will be used instead.
-				 */
-				get_template_part( 'template-parts/content', get_post_format() );
-
+			
 			endwhile;
 
 			the_posts_navigation();

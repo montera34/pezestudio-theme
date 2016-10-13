@@ -39,6 +39,18 @@ Underscores is distributed under the terms of the GNU GPL v2 or later.
 	display: inline-block;
 	padding: 3px 5px;
 }
+.black-bg {
+	background-color: #000;
+	color: #fff;
+	display: inline-block;
+	padding: 3px 5px;
+}
+.white-bg {
+	background-color: rgba(255,255,255,0.65);
+	color: #000;
+	display: inline-block;
+	padding: 3px 5px;
+}
 .main-tit {
 	text-transform: uppercase;
 	font-size: 13px;
@@ -51,6 +63,22 @@ Underscores is distributed under the terms of the GNU GPL v2 or later.
 .pez-bg a:hover {
 	text-decoration: none;
 	color: #000;
+}
+.black-bg a {
+	background-color: #000;
+	color: #fff;
+}
+.black-bg a:hover {
+	text-decoration: none;
+	color: rgba(255,255,255,0.65);
+}
+.white-bg a {
+	background-color: rgba(255,255,255,0.65);
+	color: #000;
+}
+.white-bg a:hover {
+	text-decoration: none;
+	color: rgba(255,255,255,1);
 }
 .edit-link {
 	background-color: #ff0;	
@@ -154,3 +182,19 @@ ul.sub-menu {
 .fp-slide-desc .pez-bg p:last-child {
 	margin: 0;
 }
+
+/* PROJECTS MOSAIC */
+.grid-item {
+	padding: 14px 7px 0;
+}
+.grid-tit {
+	position: absolute;
+	bottom: 0;
+	text-transform: uppercase;
+	font-weight: 600;
+
+}
+.grid-item a:hover .white-bg {
+	background-color: white;
+}
+
