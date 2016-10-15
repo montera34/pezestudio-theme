@@ -29,7 +29,7 @@ if ($header_height != '' ) {
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<header<?php echo $header_style_out; ?> class="wrap">
 		<div class="wrap-inner vspace">
-		<div class="container-fluid">
+		<div class="container">
 		<div id="entry-header" class="row">
 		<div class="col-md-6 col-md-offset-3">
 			<?php the_title( '<h1 class="pez-bg main-tit">', '</h1>' ); ?>
@@ -40,9 +40,10 @@ if ($header_height != '' ) {
 		</div>
 		</div>
 		</div>
+		<?php echo $js_out; ?>
 	</header><!-- .entry-header -->
 
-	<div id="entry-content" class="entry-content container-fluid">
+	<div id="entry-content" class="container">
 		<div class="row vspace">
 		<div class="col-md-6 col-md-offset-3">
 		<?php
@@ -56,6 +57,5 @@ if ($header_height != '' ) {
 		</div><!-- .col-xx-y -->
 		</div><!-- .row -->
 	</div><!-- .entry-content -->
-	<?php echo $js_out; ?>
 
 </article><!-- #post-## -->

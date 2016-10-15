@@ -131,7 +131,7 @@ Underscores is distributed under the terms of the GNU GPL v2 or later.
 	background-color: transparent;
 }
 #navbar-social li a i {
-	text-shadow: 0 0 40px rgba(0,0,0,0.5);
+	text-shadow: 0 0 40px rgba(0,0,0,0.7);
 }
 .navbar-form .form-control {
 	box-shadow: 0 0 70px rgba(0,0,0,0.2);
@@ -204,4 +204,10 @@ ul.sub-menu {
 }
 .post-type-archive-projects #entry-content {
 	margin-top: 52px;
+}
+
+/* BLOG PAGE TEMPLATE */
+.widget {
+	padding-top: 14px;
+	color: 999;
 }

@@ -20,8 +20,12 @@ get_header();
 			<header class="container">
 				<div id="entry-header" class="row">
 				<div class="col-md-9">
-					<?php the_archive_title( '<h1 class="pez-bg main-tit hidden">', '</h1>' );
-					the_archive_description( '<div class="row"><div class="col-md-12 fp-slide-desc"><div class="pez-bg">', '</div></div></div>' ); ?>
+				<?php if ( is_home() && ! is_front_page() ) {
+					echo '<h1 class="pez-bg main-tit hidden">'; single_post_title(); echo '</h1>';
+				} else {
+					the_archive_title( '<h1 class="pez-bg main-tit hidden">', '</h1>' );
+					the_archive_description( '<div class="row"><div class="col-md-12 fp-slide-desc"><div class="pez-bg">', '</div></div></div>' );
+				} ?>
 				</div>
 				</div>
 			</header><!-- .wrap -->
