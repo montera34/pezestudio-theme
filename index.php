@@ -86,7 +86,7 @@ get_header();
 
 				</div>
 				</div>
-				<?php the_posts_navigation(); ?>
+				<?php //the_posts_navigation(); ?>
 
 				<div class="col-md-3">
 				<?php get_sidebar(); ?>

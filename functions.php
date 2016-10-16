@@ -138,13 +138,16 @@ function pezestudio_scripts() {
 		wp_enqueue_script( 'fullpage-js', get_template_directory_uri() . '/fullpagejs/jquery.fullPage.min.js', array('jquery'), '2.8.6', true );
 		wp_enqueue_script( 'page-fullpage-js', get_template_directory_uri() . '/js/page-fullpage.js', array('fullpage-js'), '0.1', true );
 	}
-	if ( is_page() && !is_page_template('page-fullpage.php') || is_tax(array('line','topic','country','city','status')) || is_home() ) {
+	if ( is_page() && !is_page_template('page-fullpage.php') || is_tax(array('line','topic','country','city','status')) || is_home() || is_singular('projects') ) {
 		wp_enqueue_script( 'header-bgimage-js', get_template_directory_uri() . '/js/header-bgimage.js', array('jquery'), '0.1', true );
 	}
 	if ( is_tax(array('line','topic','country','city','status')) || is_post_type_archive('projects') || is_home() ) {
 		wp_enqueue_script( 'images-loaded-js', get_template_directory_uri() . '/js/imagesloaded.pkgd.min.js', array('jquery'), '4.1.1', true );
 		wp_enqueue_script( 'masonry-js', get_template_directory_uri() . '/js/masonry.pkgd.min.js', array('images-loaded-js'), '4.1.1', true );
 		wp_enqueue_script( 'masonry-options-js', get_template_directory_uri() . '/js/masonry.options.js', array('masonry-js'), '0.1', true );
+	}
+	if ( is_singular('projects') ) {
+		wp_enqueue_script( 'horizontal-slider-js', get_template_directory_uri() . '/js/horizontal.slider.js', array('jquery'), '0.1', true );
 	}
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
@@ -307,6 +310,17 @@ function pezestudio_register_custom_images_fullpage() {
 		);
 		$count++;
 	}
+	$bgimages['bgimage-projects'] = array(
+		'post_types' => array('projects'),
+		'position' => 'side',
+		'labels' => array(
+			'name' => $label_name,
+			'set' => $label_set,
+			'remove' => $label_remove,
+			'popup_title' => $label_set,
+			'popup_select' => $label_set
+		)
+	);
 	add_theme_support('mfi-reloaded', $bgimages );
 }
 add_action('after_setup_theme', 'pezestudio_register_custom_images_fullpage');
@@ -335,7 +349,7 @@ function pezestudio_get_searchform($post_type,$form_classes,$submit_btn) {
  * EXTRA FIELDS FOR
  * FULL WIDTH IMAGE HEADER */
 function pezestudio_metabox_header_data($post_type) {
-	if ( $post_type == 'page' )
+	if ( $post_type == 'page' || $post_type == 'projects' ) {
 		$fields = array(
 			'_pezestudio_header_height' => array(
 				'name' => __('Header height','_s'),
@@ -348,7 +362,8 @@ function pezestudio_metabox_header_data($post_type) {
 				'description' => __('In case featured image not set.','_s')
 			)
 		);
-	return $fields;
+		return $fields;
+	}
 }
 
 function pezestudio_metabox_header() {
@@ -356,7 +371,7 @@ function pezestudio_metabox_header() {
 		'_pezestudio_metabox_header', // ID
 		__('Header settings','_s'), // title
 		'pezestudio_metabox_header_render', // callback function
-		'page', // post type
+		array('page','projects'), // post type
 		'side', // context: normal, side, advanced
 		'low' // priority: high, core, default, low
 	);
@@ -377,7 +392,7 @@ function pezestudio_metabox_header_render( $post ) {
 	* Use get_post_meta() to retrieve an existing value
 	* from the database and use the value for the form.
 	*/
-	foreach ( pezestudio_metabox_header_data('page') as $id => $data ) {
+	foreach ( pezestudio_metabox_header_data(get_post_type()) as $id => $data ) {
 		$value = get_post_meta( $post->ID, $id, true );
 
 		echo '<fieldset>
@@ -431,8 +446,9 @@ function pezestudio_metabox_header_save( $post_id ) {
 	}
 
 	/* OK, its safe for us to save the data now. */
-
-	foreach ( pezestudio_metabox_header_data('page') as $id => $data ) {
+	if ( is_page() ) $pt = "page";
+	elseif ( get_post_type() ) $pt = "projects";
+	foreach ( pezestudio_metabox_header_data($pt) as $id => $data ) {
 		// Sanitize user input.
 		$value = sanitize_text_field( $_POST[$id] );
 		// Update the meta field in the database.

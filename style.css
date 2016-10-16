@@ -177,12 +177,14 @@ ul.sub-menu {
 
 /* BG IMAGE HEADER */
 #skipHeader {
-	background-color: rgba(255,255,255,0.65);
+	text-shadow: 0 0 2px rgba(255,255,255,1);
 	padding: 0 3px;
 	display: inline-block;
+	line-height: 0.5em;
 }
 #skipHeader:hover {
-	background-color: rgba(255,255,255,1);
+	color: #fff;
+	line-height: 0.5em;
 }
 .fp-slide-desc .pez-bg p:last-child {
 	margin: 0;
@@ -210,4 +212,52 @@ ul.sub-menu {
 .widget {
 	padding-top: 14px;
 	color: 999;
+}
+
+/* PROJECT SINGLE TEMPLATE */
+.project-desc {
+	font-weight: bold;
+}
+.project-card {
+	font-size: 10px;
+}
+.project-card dt {
+	margin-top: 1em;
+	font-weight: bold;
+}
+.project-card-firstline {
+	border-bottom: 1px solid;
+}
+
+/* HORIZONTAL SLIDE */
+.slide-wrap {
+	margin-top: 14px;
+	height: 300px;
+	position: relative;
+	white-space: nowrap;
+	overflow: hidden;
+}
+.slides {
+	position: relative;
+}
+.slide-arrow {
+	position: absolute;
+	height: 300px;
+	z-index: 51;
+	display: table;
+}
+.slide-arrow-right {
+	right: 0;
+	text-align: right;
+}
+.slide-arrow i {
+	display: table-cell;
+	vertical-align: middle;
+	text-shadow: 0 0 2px rgba(255,255,255,1);
+}
+.slide-arrow:hover i {
+	color: #fff;
+}
+.slides img {
+	padding-right: 14px;
 }
