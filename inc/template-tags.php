@@ -7,76 +7,75 @@
  * @package _s
  */
 
+function pezestudio_get_post_nav_links($post) {
+
+	$link_prev = get_previous_post_link( '<span class="post-nav-label"><i class="fa fa-chevron-left" aria-hidden="true"></i> '.__("Previous post","_s").'</span> %link', '%title', false, '', 'category' );
+	$link_next = get_next_post_link( '<span class="post-nav-label">'.__("Next post","_s").' <i class="fa fa-chevron-right" aria-hidden="true"></i></span> %link', '%title', false, '', 'category' );
+
+	$links_out = '';
+	$link_class = ( $link_prev == '' || $link_next == '' ) ? "col-md-8 col-md-offset-2" :"col-md-4";
+	if ( $link_prev != '' ) {
+		$links_out .= '<div class="post-nav '.$link_class.' col-md-offset-2">'.$link_prev.'</div>';
+	}
+	if ( $link_next != '' ) {
+		$links_out .= '<div class="post-nav '.$link_class.' text-right">'.$link_next.'</div>';
+	}
+
+	return $links_out;
+}
+
 if ( ! function_exists( '_s_posted_on' ) ) :
 /**
  * Prints HTML with meta information for the current post-date/time and author.
  */
 function _s_posted_on() {
-	$time_string = '<time class="entry-date published updated" datetime="%1$s">%2$s</time>';
-	if ( get_the_time( 'U' ) !== get_the_modified_time( 'U' ) ) {
-		$time_string = '<time class="entry-date published" datetime="%1$s">%2$s</time><time class="updated" datetime="%3$s">%4$s</time>';
-	}
 
-	$time_string = sprintf( $time_string,
+	$meta_out = '<ul class="list-unstyled">';
+
+	// PUBLISHED TIME
+	$time_string = '<li><i class="fa fa-asterisk" aria-hidden="true"></i> <time class="entry-date published updated" datetime="%1$s">%2$s</time></li>';
+	$meta_out .= sprintf( $time_string,
 		esc_attr( get_the_date( 'c' ) ),
-		esc_html( get_the_date() ),
-		esc_attr( get_the_modified_date( 'c' ) ),
-		esc_html( get_the_modified_date() )
+		esc_html( get_the_date() )
 	);
 
-	$posted_on = sprintf(
-		esc_html_x( 'Posted on %s', 'post date', '_s' ),
-		'<a href="' . esc_url( get_permalink() ) . '" rel="bookmark">' . $time_string . '</a>'
-	);
+	// MODIFIED TIME
+	//if ( get_the_time( 'U' ) !== get_the_modified_time( 'U' ) ) {
+	//	$update_string = '<li><time class="updated" datetime="%1$s">%2$s</time></li>';
+	//	$update_string = sprintf( $update_string,
+	//		esc_attr( get_the_modified_date( 'c' ) ),
+	//		esc_html( get_the_modified_date() )
+	//	);
+	//} else { $update_string = ''; }
 
-	$byline = sprintf(
-		esc_html_x( 'by %s', 'post author', '_s' ),
-		'<span class="author vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '">' . esc_html( get_the_author() ) . '</a></span>'
-	);
+	// AUTHOR
+	$meta_out .= '<li><i class="fa fa-user" aria-hidden="true"></i> <span class="author vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '">' . esc_html( get_the_author() ) . '</a></span></li>';
 
-	echo '<span class="posted-on">' . $posted_on . '</span><span class="byline"> ' . $byline . '</span>'; // WPCS: XSS OK.
+	// PERMALINK
+	$meta_out .= '<li><i class="fa fa-link" aria-hidden="true"></i> <a href="' . esc_url( get_permalink() ) . '" rel="bookmark">' . __('Permalink','_s') . '</a></li>';
 
-}
-endif;
-
-if ( ! function_exists( '_s_entry_footer' ) ) :
-/**
- * Prints HTML with meta information for the categories, tags and comments.
- */
-function _s_entry_footer() {
+	// CATEGORIES
 	// Hide category and tag text for pages.
 	if ( 'post' === get_post_type() ) {
 		/* translators: used between list items, there is a space after the comma */
 		$categories_list = get_the_category_list( esc_html__( ', ', '_s' ) );
 		if ( $categories_list && _s_categorized_blog() ) {
-			printf( '<span class="cat-links">' . esc_html__( 'Posted in %1$s', '_s' ) . '</span>', $categories_list ); // WPCS: XSS OK.
+			$meta_out .= '<li class="cat-links"><i class="fa fa-folder" aria-hidden="true"></i> ' .$categories_list. '</li>';
 		}
 
 		/* translators: used between list items, there is a space after the comma */
 		$tags_list = get_the_tag_list( '', esc_html__( ', ', '_s' ) );
 		if ( $tags_list ) {
-			printf( '<span class="tags-links">' . esc_html__( 'Tagged %1$s', '_s' ) . '</span>', $tags_list ); // WPCS: XSS OK.
+			$meta_out .= '<li class="tags-links"><i class="fa fa-tag" aria-hidden="true"></i> ' .$tags_list. '</li>';
 		}
 	}
 
-	if ( ! is_single() && ! post_password_required() && ( comments_open() || get_comments_number() ) ) {
-		echo '<span class="comments-link">';
-		/* translators: %s: post title */
-		comments_popup_link( sprintf( wp_kses( __( 'Leave a Comment<span class="screen-reader-text"> on %s</span>', '_s' ), array( 'span' => array( 'class' => array() ) ) ), get_the_title() ) );
-		echo '</span>';
-	}
+	$meta_out .= '</ul>';
+	echo $meta_out;
 
-	edit_post_link(
-		sprintf(
-			/* translators: %s: Name of current post */
-			esc_html__( 'Edit %s', '_s' ),
-			the_title( '<span class="screen-reader-text">"', '"</span>', false )
-		),
-		'<span class="edit-link">',
-		'</span>'
-	);
 }
 endif;
+
 
 /**
  * Returns true if a blog has more than 1 category.

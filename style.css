@@ -33,6 +33,12 @@ Underscores is distributed under the terms of the GNU GPL v2 or later.
 .vspace {
 	padding: 30px 0;
 }
+.tspace {
+	padding-top: 30px;
+}
+.bspace {
+	padding-bottom: 30px;
+}
 .pez-bg {
 	background-color: #f60 !important;
 	color: #fff;
@@ -260,4 +266,61 @@ ul.sub-menu {
 }
 .slides img {
 	padding-right: 14px;
+}
+
+/* SINGLE POST */
+article.post {
+	margin-top: 52px;
+}
+.single-post .main-tit {
+	margin-top: 30px;
+}
+.single-post .entry-content img {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
+.single-post .entry-content a,
+.single-post .entry-footer a {
+	text-decoration: underline;
+}
+.single-post .entry-content a:hover,
+.single-post .entry-footer a:hover {
+	text-decoration: none;
+}
+.single-post .entry-footer {
+	font-size: 11px;
+}
+.single-post .entry-footer ul li {
+	margin-bottom: 1em;
+}
+.single-post .entry-meta,
+.single-post .cat-links,
+.single-post .tags-links {
+	display: block;
+	margin-bottom: 1em;
+}
+
+/* post navigation */
+.post-nav {
+	border-top: 1px solid;
+}
+.post-nav-label {
+	display: block;
+}
+.post-nav a {
+	font-weight: bold;
+}
+.post-nav a:hover {
+	text-decoration: underline;
+}
+
+/* comments */
+.comment-list {
+}
+.comment-list {
+	margin-top: 1em;
+}
+.comment-form .form-control {
+	background-color: rgb(240,240,240);
 }

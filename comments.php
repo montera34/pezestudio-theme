@@ -20,12 +20,12 @@ if ( post_password_required() ) {
 }
 ?>
 
-<div id="comments" class="comments-area">
+<div id="comments" class="comments-area col-md-8 col-md-offset-2">
 
 	<?php
 	// You can start editing here -- including this comment!
 	if ( have_comments() ) : ?>
-		<h2 class="comments-title">
+		<h2 class="comments-title main-tit">
 			<?php
 				printf( // WPCS: XSS OK.
 					esc_html( _nx( 'One thought on &ldquo;%2$s&rdquo;', '%1$s thoughts on &ldquo;%2$s&rdquo;', get_comments_number(), 'comments title', '_s' ) ),
@@ -50,8 +50,10 @@ if ( post_password_required() ) {
 		<ol class="comment-list">
 			<?php
 				wp_list_comments( array(
-					'style'      => 'ol',
+					'style' => 'ul',
 					'short_ping' => true,
+					'per_page' => '-1',
+					'reply_text' => 'Responder a este comentario'
 				) );
 			?>
 		</ol><!-- .comment-list -->
@@ -78,8 +80,40 @@ if ( post_password_required() ) {
 		<p class="no-comments"><?php esc_html_e( 'Comments are closed.', '_s' ); ?></p>
 	<?php
 	endif;
+	
+	function pezestudio_comment_form_fields($fields) {
+		$commenter = wp_get_current_commenter();
+		$req = get_option( 'require_name_email' );
+		$aria_req = ( $req ? " aria-required='true'" : '' );
+		$fields =  array(
+			'author' => '<fieldset class="form-group comment-form-author">
+				<label for="author">' . __( 'Name', '_s' ) . '</label> ' .
+				( $req ? '<span class="required">*</span>' : '' ) .
+				'<input class="form-control" id="author" name="author" type="text" value="' . esc_attr( $commenter['comment_author'] ) . '" size="30"' . $aria_req . ' />
+				</fieldset>',
 
-	comment_form();
+			'email' => '<fieldset class="form-group comment-form-email">
+				<label for="email">' . __( 'Email', '_s' ) . '</label> ' .
+				( $req ? '<span class="required">*</span>' : '' ) .
+				'<input class="form-control" id="email" name="email" type="text" value="' . esc_attr(  $commenter['comment_author_email'] ) . '" size="30"' . $aria_req . ' />
+				</fieldset>',
+
+			'url' => '<fieldset class="form-group comment-form-url">
+				<label for="url">' . __( 'Website', '_s' ) . '</label>' .
+				'<input class="form-control" id="url" name="url" type="text" value="' . esc_attr( $commenter['comment_author_url'] ) . '" size="30" />
+				</fieldset>',
+		);
+		return $fields;
+	}
+	$args = array(
+		'title_reply_before' => '<h3 id="reply-title" class="main-tit">',
+		'class_submit' => 'btn btn-sm btn-default',
+		'fields' => apply_filters( 'comment_form_default_fields',pezestudio_comment_form_fields($fields) ),	
+		'comment_field' => '<fieldset class="form-group comment-form-comment">
+			<textarea class="form-control" id="comment" name="comment" rows="5" aria-required="true"></textarea>
+			</fieldset>' 
+	);
+	comment_form($args);
 	?>
 
 </div><!-- #comments -->

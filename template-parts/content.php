@@ -7,26 +7,35 @@
  * @package _s
  */
 
+if ( has_post_thumbnail() ) {
+	$img = get_the_post_thumbnail($post,'big',array( 'class' => 'img-responsive' ));
+	$img_out = '
+	<figure class="row">
+		<div class="col-md-12">
+		'.$img.'
+		</div>
+	</figure>
+	';
+} else { $img_out = ''; }
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<header class="entry-header">
+<article id="post-<?php the_ID(); ?>" <?php post_class('col-md-8 col-md-offset-2'); ?>>
+	<?php echo $img_out; ?>
+	<header class="entry-header row">
+		<div class="col-md-12">
 		<?php
 		if ( is_single() ) :
-			the_title( '<h1 class="entry-title">', '</h1>' );
+			the_title( '<h1 class="pez-bg main-tit">', '</h1>' );
 		else :
 			the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' );
 		endif;
-
-		if ( 'post' === get_post_type() ) : ?>
-		<div class="entry-meta">
-			<?php _s_posted_on(); ?>
-		</div><!-- .entry-meta -->
-		<?php
-		endif; ?>
+		if ( get_edit_post_link() )
+			edit_post_link('<span class="edit-link">'.esc_html__( 'Edit', '_s' ).'</span>'); ?>
+		</div>
 	</header><!-- .entry-header -->
 
-	<div class="entry-content">
+	<div class="row vspace">
+		<div class="entry-content col-md-9 col-md-push-3">
 		<?php
 			the_content( sprintf(
 				/* translators: %s: Name of current post. */
@@ -39,9 +48,11 @@
 				'after'  => '</div>',
 			) );
 		?>
-	</div><!-- .entry-content -->
+		</div><!-- .entry-content -->
 
-	<footer class="entry-footer">
-		<?php _s_entry_footer(); ?>
-	</footer><!-- .entry-footer -->
+		<footer class="entry-footer col-md-3 col-md-pull-9">
+			<?php _s_posted_on(); ?>
+		</footer><!-- .entry-footer -->
+
+	</div><!-- .row -->
 </article><!-- #post-## -->
