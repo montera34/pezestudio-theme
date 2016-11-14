@@ -46,7 +46,7 @@ get_header();
 //	$pi_src = wp_get_attachment_url($bgi_id);
 //	$pi_meta = wp_get_attachment_metadata($bgi_id);
 //	$p_out = '<img src="'.$bgi_src.'" alt="";
-					$img_out = get_the_post_thumbnail($post,'medium',array( 'class' => 'img-responsive' ));
+					$img_out = get_the_post_thumbnail($post,'thumbnail',array( 'class' => 'img-responsive' ));
 				} else { $img_out = ''; }
 				if ( $count == 1 ) { $class = ' grid-sizer'; } else { $class = ''; }
 				echo'

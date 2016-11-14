@@ -82,9 +82,43 @@ function pezestudio_setup() {
 		'default-color' => 'ffffff',
 		'default-image' => '',
 	) ) );
+
+	/*
+	 * Image sizes
+	 */
+	pezestudio_image_sizes();
+	add_filter( 'image_size_names_choose', 'pezestudio_image_sizes_names' );
 }
 endif;
 add_action( 'after_setup_theme', 'pezestudio_setup' );
+
+// set up media options
+function pezestudio_image_sizes() {
+
+	// add icon and extra sizes
+	add_image_size( 'h300', '0', '300', false );
+	add_image_size( 'larger', '1024', '0', false );
+	add_image_size( 'extralarge', '1280', '0', false );
+	add_image_size( 'huge', '1920', '1080', false );
+
+	/* set up image sizes*/
+	update_option('thumbnail_size_w', 278);
+	update_option('thumbnail_size_h', 0);
+	update_option('medium_size_w', 555);
+	update_option('medium_size_h', 0);
+	update_option('large_size_w', 750);
+	update_option('large_size_h', 0);
+} // end set up media options
+
+function pezestudio_image_sizes_names( $sizes ) {
+    return array_merge( $sizes, array(
+        'h300' => __('Fixed height','_s'),
+        'larger' => __('Larger','_s'),
+        'extralarge' => __('Extra Large','_s'),
+        'larger' => __('Huge','_s'),
+    ) );
+}
+
 
 /**
  * Set the content width in pixels, based on the theme's design and stylesheet.
@@ -96,7 +130,7 @@ add_action( 'after_setup_theme', 'pezestudio_setup' );
 function _s_content_width() {
 	$GLOBALS['content_width'] = apply_filters( '_s_content_width', 640 );
 }
-add_action( 'after_setup_theme', '_s_content_width', 0 );
+//add_action( 'after_setup_theme', '_s_content_width', 0 );
 
 /**
  * Register widget area.

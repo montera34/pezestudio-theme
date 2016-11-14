@@ -8,7 +8,7 @@
  */
 
 if ( has_post_thumbnail() ) {
-	$img = get_the_post_thumbnail($post,'big',array( 'class' => 'img-responsive' ));
+	$img = get_the_post_thumbnail($post,'large',array( 'class' => 'img-responsive' ));
 	$img_out = '
 	<figure class="row">
 		<div class="col-md-12">

@@ -12,8 +12,11 @@ $header_bgcolor = get_post_meta($post->ID,'_pezestudio_header_bgcolor',true);
 if ( has_post_thumbnail() ) {
 	$bgi_id = get_post_thumbnail_id( $post->ID );
 	$bgi_src = wp_get_attachment_url($bgi_id);
-	$bgi_meta = wp_get_attachment_metadata($bgi_id);
-	$header_style_out .= "background-image: url('".$bgi_src."'); background-size: cover;";
+//	$bgi_meta = wp_get_attachment_metadata($bgi_id);
+	$bgi_src_huge = wp_get_attachment_image_url($bgi_id,'huge');
+	$bgi_src_extralarge = wp_get_attachment_image_url($bgi_id,'extralarge');
+	$bgi_src_larger = wp_get_attachment_image_url($bgi_id,'larger');
+	$header_style_out .= "background-image: url('".$bgi_src_huge."'); background-size: cover;";
 }
 if ( $header_bgcolor != '' ) {
 	$header_style_out .= "background-color: ".$header_bgcolor.";";

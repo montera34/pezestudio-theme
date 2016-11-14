@@ -19,8 +19,11 @@ $header_height = get_term_meta($term_id,'_pezestudio_header_height',true);
 $header_style_out = "";
 if ( $bgi_src != '' ) {
 	$bgi_id = pezestudio_get_attachment_id_from_url( $bgi_src );
-	$bgi_meta = wp_get_attachment_metadata($bgi_id);
-	$header_style_out .= "background-image: url('".$bgi_src."'); background-size: cover;";
+	$bgi_src_huge = wp_get_attachment_image_url($bgi_id,'huge');
+	$bgi_src_extralarge = wp_get_attachment_image_url($bgi_id,'extralarge');
+	$bgi_src_larger = wp_get_attachment_image_url($bgi_id,'larger');
+//	$bgi_meta = wp_get_attachment_metadata($bgi_id);
+	$header_style_out .= "background-image: url('".$bgi_src_huge."'); background-size: cover;";
 }
 if ( $header_bgcolor != '' ) {
 	$header_style_out .= "background-color: ".$header_bgcolor.";";
