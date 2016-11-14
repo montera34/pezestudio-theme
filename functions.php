@@ -327,16 +327,21 @@ add_action('after_setup_theme', 'pezestudio_register_custom_images_fullpage');
 
 /*
  * SEARCH FORM OUTPUT */
-function pezestudio_get_searchform($post_type,$form_classes,$submit_btn) {
+function pezestudio_get_searchform($post_type,$form_classes,$submit_btn,$search_label) {
 	
 	$filters_out = ( $post_type != false ) ? '<input type="hidden" name="post_type" value="'.$post_type.'" />' : '';
 	$submit_out = ( $submit_btn != false ) ? '<input type="submit" id="searchsubmit" value="Search" />' : '';
+
+	if ( is_search() ) {
+		$active_class = ' searched';
+		$search_label = __('Search results: ','_s').' '.get_search_query();
+	} else { $active_class = ''; }
 	$form_out = '
 	<form method="get" id="searchform" class="'.$form_classes.'" action="'.get_home_url().'/" role="search">
 	<div class="form-group">
 		'.$filters_out.'
-		<label class="sr-only" for="s">'.__("Search projects","_s").'</label>
-		<input class="form-control input-sm" type="text" value="" name="s" id="s" placeholder="'.__("Search projects","_s").'" />
+		<label class="sr-only" for="s">'.$search_label.'</label>
+		<input class="form-control input-sm'.$active_class.'" type="text" value="" name="s" id="s" placeholder="'.$search_label.'" />
 		'.$submit_out.'
 	</div>
 	</form>

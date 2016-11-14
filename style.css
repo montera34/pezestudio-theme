@@ -142,10 +142,28 @@ Underscores is distributed under the terms of the GNU GPL v2 or later.
 .navbar-form .form-control {
 	box-shadow: 0 0 70px rgba(0,0,0,0.2);
 }
-.current-menu-item>a {
+.current-menu-item>a,
+.searched {
 	background-color: #f60 !important;
 	color: #fff;
 }
+input.searched::-webkit-input-placeholder {
+	color: #fff;
+	text-transform: uppercase;
+}
+input.searched:-moz-placeholder {
+	color: #fff;
+	text-transform: uppercase;
+}
+input.searched::-moz-placeholder {
+	color: #fff;
+	text-transform: uppercase;
+}
+input.searched:-ms-input-placeholder {
+	color: #fff;
+	text-transform: uppercase;
+}
+
 /* Dropdown Menu */
 #pre-nav .navbar-toggle {
 	float: left;
