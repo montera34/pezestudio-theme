@@ -307,6 +307,18 @@ ul.sub-menu {
 	padding-right: 14px;
 }
 
+/* THUMBNAIL SLIDER */
+#project-imgs-nav .list-inline {
+	margin-bottom: 0;
+}
+.project-thumb {
+	border: 2px solid #fff;
+	display: inline-block;
+}
+.project-thumb:hover {
+	border-color: #000;
+}
+
 /* SINGLE POST */
 article.post {
 	margin-top: 52px;

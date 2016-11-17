@@ -7,7 +7,6 @@
  * @package _s
  */
 
-$header_text_class = "col-md-9";
 $header_style_out = "";
 $header_bgcolor = get_post_meta($post->ID,'_pezestudio_header_bgcolor',true);
 $bgimages_ids = get_post_meta($post->ID,'mfi-reloaded-images');
@@ -161,7 +160,8 @@ $args = array(
 //	'order' => 'ASC'
 );
 $attachments = get_posts($args);
-$p_imgs_out = '';
+$p_imgs_out = ''; // container for horozontal slider
+$p_imgs_nav_out = ''; // countainer for thumbnails gallery
 $count_img = 0;
 if ( $attachments ) {
 	foreach ( $attachments as $attachment ) {
@@ -170,33 +170,48 @@ if ( $attachments ) {
 		// testing if the attachment is an image
 			$count_img++;
 			$img_class = ( $count_img == 1 ) ? ' class="current"' : '';
-			$img_vars = wp_get_attachment_image_src($attachment->ID,'big' );
+			//$img_vars = wp_get_attachment_image_src($attachment->ID,'large' );
+			// horizontal slider
+			//$img_src = wp_get_attachment_image_url($attachment->ID,'h300' );
+			//$p_imgs_out .= "<img".$img_class." src='".$img_src."' />";
+			// thumbnail gallery
+			$img_src = wp_get_attachment_image_url($attachment->ID,'large' );
+			$thumb_src = wp_get_attachment_image_url($attachment->ID,'h50' );
 			//array_push($p_imgs, "<img src='{$img_vars[0]}' width='{$img_vars[1]}' height='{$img_vars[2]}' />");
-			$p_imgs_out .= "<img".$img_class." src='{$img_vars[0]}' height='300px' />";
+			$p_imgs_nav_out .= "<li><a class='project-thumb' href='".$img_src."'><img".$img_class." src='".$thumb_src."' height='50px' alt='Thumbnail' /></a></li>";
 		}
 	}
 }
-$p_imgs_out = ( $p_imgs_out != '' ) ? '<div class="slides">'.$p_imgs_out.'</div>' : ''
+$p_imgs_out = ( $p_imgs_out != '' ) ? '<div class="slides">'.$p_imgs_out.'</div>' : '';
+if ( $p_imgs_nav_out != '' ) {
+	$p_imgs_nav_out = '<nav class="col-md-7"><ul id="project-imgs-nav" class="list-inline pull-right">'.$p_imgs_nav_out.'</ul></nav>';
+	$header_text_class = "col-md-4";
+} else {
+	$p_imgs_nav_out = '';
+	$header_text_class = "col-md-11";
+}
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<header<?php echo $header_style_out; ?> class="wrap">
 		<div class="wrap-inner vspace">
 		<div class="container">
-		<div id="entry-header" class="row">
-		<div class="<?php echo $header_text_class; ?>">
-			<?php the_title( '<h1 class="pez-bg main-tit">', '</h1>' ); ?>
-			<?php if ( get_edit_post_link() )
-				edit_post_link('<span class="edit-link">'.esc_html__( 'Edit', '_s' ).'</span>');
-			echo $bgi_desc_out; ?>
-		</div>
-		</div>
+			<div id="entry-header" class="row">
+				<div class="<?php echo $header_text_class; ?>">
+				<?php the_title( '<h1 class="pez-bg main-tit">', '</h1>' ); ?>
+				<?php if ( get_edit_post_link() )
+					edit_post_link('<span class="edit-link">'.esc_html__( 'Edit', '_s' ).'</span>');
+				echo $bgi_desc_out; ?>
+				</div>
+				<?php echo $p_imgs_nav_out; ?>
+			</div>
 		</div>
 		</div>
 		<?php echo $js_out; ?>
 	</header><!-- .entry-header -->
 
 	<div id="entry-content" class="container">
+		<?php if ( $p_imgs_out != '' ) { ?>
 		<div class="row">
 			<div class="col-md-12">
 				<div class="slide-wrap">
@@ -206,6 +221,7 @@ $p_imgs_out = ( $p_imgs_out != '' ) ? '<div class="slides">'.$p_imgs_out.'</div>
 				</div>
 			</div>
 		</div>
+		<?php } ?>
 		<div class="row vspace">
 		<div class="project-card col-md-2 col-md-offset-2">
 		<?php echo $firstline_out.$list_out; ?>

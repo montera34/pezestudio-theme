@@ -11,7 +11,7 @@ get_header();
 
 // TERM VARS
 //// 
-$header_text_class = "col-md-9";
+$header_text_class = "col-md-11";
 $term_id = get_queried_object()->term_id;
 $bgi_src = get_term_meta($term_id,'_pezestudio_header_bgimage',true);
 $header_bgcolor = get_term_meta($term_id,'_pezestudio_header_bgcolor',true);
