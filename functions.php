@@ -63,6 +63,7 @@ function pezestudio_setup() {
 	register_nav_menus( array(
 		'primary' => esc_html__( 'Primary', '_s' ),
 		'lang' => esc_html__( 'Languages', '_s' ),
+		'footer' => esc_html__( 'Footer', '_s' ),
 	) );
 
 	/*
@@ -96,6 +97,7 @@ add_action( 'after_setup_theme', 'pezestudio_setup' );
 function pezestudio_image_sizes() {
 
 	// add icon and extra sizes
+	add_image_size( 'h50', '0', '50', false );
 	add_image_size( 'h300', '0', '300', false );
 	add_image_size( 'larger', '1024', '0', false );
 	add_image_size( 'extralarge', '1280', '0', false );
@@ -112,7 +114,8 @@ function pezestudio_image_sizes() {
 
 function pezestudio_image_sizes_names( $sizes ) {
     return array_merge( $sizes, array(
-        'h300' => __('Fixed height','_s'),
+        'h50' => __('Mini fixed height','_s'),
+        'h300' => __('Medium fixed height','_s'),
         'larger' => __('Larger','_s'),
         'extralarge' => __('Extra Large','_s'),
         'larger' => __('Huge','_s'),

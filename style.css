@@ -31,7 +31,8 @@ Underscores is distributed under the terms of the GNU GPL v2 or later.
 	vertical-align: bottom;
 }
 .vspace {
-	padding: 30px 0;
+	padding-top: 30px;
+	padding-bottom: 30px;
 }
 .tspace {
 	padding-top: 30px;
@@ -188,6 +189,24 @@ ul.sub-menu {
 	box-shadow: none;
 }
 
+/* FOOTER */
+#colophon {
+	font-size: 0.9em;
+}
+#navbar-footer {
+	text-transform: uppercase;
+}
+#navbar-footer a:hover {
+	text-decoration: underline;
+}
+#credits a {
+	color: #777;
+	text-decoration: underline;
+}
+#credits a:hover {
+	text-decoration: none;
+}
+
 /* FULL PAGE TEMPLATE */
 .fp-tableCell {
 	vertical-align: bottom;
@@ -202,12 +221,13 @@ ul.sub-menu {
 /* BG IMAGE HEADER */
 #skipHeader {
 	text-shadow: 0 0 2px rgba(255,255,255,1);
+	color: #fff;
 	padding: 0 3px;
 	display: inline-block;
 	line-height: 0.5em;
 }
 #skipHeader:hover {
-	color: #fff;
+	color: #000;
 	line-height: 0.5em;
 }
 .fp-slide-desc .pez-bg p:last-child {
@@ -278,9 +298,10 @@ ul.sub-menu {
 	display: table-cell;
 	vertical-align: middle;
 	text-shadow: 0 0 2px rgba(255,255,255,1);
+	color: #fff;
 }
 .slide-arrow:hover i {
-	color: #fff;
+	color: #000;
 }
 .slides img {
 	padding-right: 14px;

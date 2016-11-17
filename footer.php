@@ -15,11 +15,23 @@
 
 <?php if ( !is_home() && !is_front_page() ) { ?>
 	<footer id="colophon" class="site-footer" role="contentinfo">
-		<div class="site-info">
-			<a href="<?php echo esc_url( __( 'https://wordpress.org/', '_s' ) ); ?>"><?php printf( esc_html__( 'Proudly powered by %s', '_s' ), 'WordPress' ); ?></a>
-			<span class="sep"> | </span>
-			<?php printf( esc_html__( 'Theme: %1$s by %2$s.', '_s' ), '_s', '<a href="http://automattic.com/" rel="designer">Automattic</a>' ); ?>
-		</div><!-- .site-info -->
+	<div class="container vspace">
+		<div class="row">
+			<nav class="site-info col-md-8">
+			<?php $location = "footer";
+			if ( has_nav_menu( $location ) ) {
+				$args = array(
+					'theme_location'  => $location,
+					'container' => false,
+					'menu_id' => 'navbar-footer',
+					'menu_class' => 'list-inline'
+				);
+				wp_nav_menu( $args );
+			} ?>
+			</nav><!-- .site-info -->
+			<div id="credits" class="col-md-4"><p class="pull-right text-muted">Developped by <a href="https://montera34.com">Montera34</a>.</p></div>
+		</div>
+	</div>
 	</footer><!-- #colophon -->
 <?php } ?>
 
