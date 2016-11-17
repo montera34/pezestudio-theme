@@ -143,7 +143,9 @@ Underscores is distributed under the terms of the GNU GPL v2 or later.
 .navbar-form .form-control {
 	box-shadow: 0 0 70px rgba(0,0,0,0.2);
 }
-.current-menu-item>a,
+#navbar-primary .current-menu-ancestor>a,
+#navbar-primary .current-menu-parent>a,
+#navbar-primary .current-menu-item>a,
 .searched {
 	background-color: #f60 !important;
 	color: #fff;
@@ -179,6 +181,10 @@ ul.sub-menu {
 	margin: 0 0 1px 0;
 	padding: 0;
 	display: none;
+}
+ul.sub-menu ul.sub-menu {
+	left: 170px;
+	top: 0;
 }
 .sub-menu li {
 	padding: 0;

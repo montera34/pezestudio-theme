@@ -142,12 +142,16 @@ foreach ( $p_card_fields as $pcf ) {
 	case 'list':
 		$list_out .= '<dt>'.$pcf['label'].'</dt><dd>'.$value.'</dd>';
 		break;	
+	case 'date':
+		$dates[] = $value;
+		break;	
 	default:
 		if ( $value != '' ) $firstline[] = $value;
 		break;
 	}
 }
 $firstline_out = ( is_array($firstline) ) ? '<div class="project-card-firstline">'.join(', ',$firstline).'</div>' : '';
+$dates_out = ( is_array($dates) && $dates[0] != $dates[1] ) ? '<dt>'.__('Date','_s').'</dt><dd>'.join(' -- ',$dates).'</dd>' : '';
 $list_out = ( $list_out != '' ) ? '<dl>'.$list_out.'</dl>' : '';
 
 // PROJECT IMAGES
@@ -224,7 +228,7 @@ if ( $p_imgs_nav_out != '' ) {
 		<?php } ?>
 		<div class="row vspace">
 		<div class="project-card col-md-2 col-md-offset-2">
-		<?php echo $firstline_out.$list_out; ?>
+		<?php echo $firstline_out.$dates_out.$list_out; ?>
 		</div><!-- .col-xx-y -->
 		<div class="col-md-6">
 		<?php 	echo $p_desc_out;
