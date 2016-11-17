@@ -46,7 +46,8 @@ if ( $header_height != '' ) {
 				<div class="container">
 				<div id="entry-header" class="row">
 				<div class="<?php echo $header_text_class; ?>">
-					<?php the_archive_title( '<h1 class="pez-bg main-tit">', '</h1>' );
+					<?php // the_archive_title( '<h1 class="pez-bg main-tit">', '</h1>' );
+					echo '<h1 class="pez-bg main-tit">'.single_term_title('',false).'</h1>';
 					the_archive_description( '<div class="row"><div class="col-md-12 fp-slide-desc"><div class="pez-bg">', '</div></div></div>' ); ?>
 				</div>
 				</div>
