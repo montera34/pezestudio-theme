@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pezestudio0.0.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
-"POT-Creation-Date: 2016-11-17 15:27+0100\n"
-"PO-Revision-Date: 2016-11-17 15:37+0100\n"
+"POT-Creation-Date: 2016-11-18 00:59+0100\n"
+"PO-Revision-Date: 2016-11-18 00:59+0100\n"
 "Last-Translator: Alfonso Sánchez Uzábal <skotperez@voragine.net>\n"
 "Language-Team: Montera34 <info@montera34.com>\n"
 "Language: es_ES\n"
@@ -149,7 +149,7 @@ msgid ", "
 msgstr ", "
 
 #: ../index.php:54 ../template-parts/content-page.php:40
-#: ../template-parts/content-projects.php:203 ../template-parts/content.php:33
+#: ../template-parts/content-projects.php:207 ../template-parts/content.php:33
 msgid "Edit"
 msgstr "Editar"
 
@@ -170,7 +170,7 @@ msgstr ""
 
 # @ _s
 #: ../template-parts/content-page.php:56
-#: ../template-parts/content-projects.php:234 ../template-parts/content.php:47
+#: ../template-parts/content-projects.php:238 ../template-parts/content.php:47
 msgid "Pages:"
 msgstr "Páginas:"
 
@@ -205,6 +205,10 @@ msgstr "Organizaciones involucradas"
 #: ../template-parts/content-projects.php:113
 msgid "Related links"
 msgstr "Enlaces relacionados"
+
+#: ../template-parts/content-projects.php:154
+msgid "Date"
+msgstr "Fecha"
 
 # @ _s
 #. translators: %s: Name of current post.
