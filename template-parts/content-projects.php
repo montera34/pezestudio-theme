@@ -69,7 +69,8 @@ $p_card_fields = array(
 		'name' => 'topic',
 		'type' => 'tax multiple',
 		'label' => __('Topics','_s'),
-		'output' => 'list'
+		'output' => 'list',
+		'link' => 1
 	),
 	array(
 		'name' => 'status',
@@ -130,7 +131,8 @@ foreach ( $p_card_fields as $pcf ) {
 		$terms = get_the_terms($post,$pcf['name']);
 		if ( $terms && ! is_wp_error( $terms ) ) {
 			foreach ( $terms as $term ) {
-			$value[] = $term->name;
+				if ( $pcf['link'] == 1 ) { $term_link = get_term_link($term->name,$pcf['name']); $value[] = '<a href="'.$term_link.'" title="'.sprintf(__('More projects tagged as %s','pezestudio'),$term->name).'">'.$term->name.'</a>'; }
+				else { $value[] = $term->name; }
 			}
 		}
 		$value = ( $value != '' ) ? join(', ',$value) : '';

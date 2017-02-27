@@ -293,6 +293,12 @@ ul.sub-menu ul.sub-menu {
 	margin-top: 1em;
 	font-weight: bold;
 }
+.project-card dd a {
+	text-decoration: underline;
+}
+.project-card dd a:hover {
+	text-decoration: none;
+}
 .project-card-firstline {
 	border-bottom: 1px solid;
 }
