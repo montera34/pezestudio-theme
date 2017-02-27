@@ -7,7 +7,7 @@ function pezestudioSetHeight(target) {
 }
 // skip header with a smoth scroll transition
 function pezestudioSkipHeader() {
-	jQuery('#entry-header').append('<div class="col-md-1"><div class="pull-right"><a id="skipHeader" href="#entry-content"><i class="fa fa-4x fa-angle-down" aria-hidden="true"></i></a></div></div>');
+	jQuery('#entry-header').append('<div class="col-md-1"><div class="pull-right"><a id="skipHeader" href="#entry-header"><i class="fa fa-4x fa-angle-down" aria-hidden="true"></i></a></div></div>');
 	jQuery('#skipHeader').click(function() {
 		var target = jQuery(this.hash);
 		jQuery('html, body').animate({
