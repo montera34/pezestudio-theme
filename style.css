@@ -137,7 +137,7 @@ Underscores is distributed under the terms of the GNU GPL v2 or later.
 	color: rgba(0,0,0,1);
 }
 #navbar-social li a:hover {
-	color: rgba(255,255,255,1);
+	color: rgba(0,0,0,0.5);
 	background-color: transparent;
 }
 /*#navbar-social li a i {
@@ -297,8 +297,8 @@ ul.sub-menu ul.sub-menu {
 
 /* HORIZONTAL SLIDE */
 .slide-wrap {
-	margin-top: 14px;
-	height: 300px;
+	margin-top: 15px;
+	height: 150px;
 	position: relative;
 	white-space: nowrap;
 	overflow: hidden;
@@ -308,7 +308,7 @@ ul.sub-menu ul.sub-menu {
 }
 .slide-arrow {
 	position: absolute;
-	height: 300px;
+	height: 150px;
 	z-index: 51;
 	display: table;
 }
@@ -319,14 +319,14 @@ ul.sub-menu ul.sub-menu {
 .slide-arrow i {
 	display: table-cell;
 	vertical-align: middle;
-	text-shadow: 0 0 2px rgba(255,255,255,1);
-	color: #fff;
+	text-shadow: 0 0 2px rgba(255,102,0,1);
+	color: #f60;
 }
 .slide-arrow:hover i {
-	color: #000;
+	text-shadow: 0 0 5px rgba(255,102,0,1);
 }
-.slides img {
-	padding-right: 14px;
+.slides a {
+	margin-right: 14px;
 }
 
 /* THUMBNAIL SLIDER */
@@ -334,11 +334,9 @@ ul.sub-menu ul.sub-menu {
 	margin-bottom: 0;
 }
 .project-thumb {
-	border: 2px solid #fff;
 	display: inline-block;
 }
 .project-thumb:hover {
-	border-color: #000;
 }
 
 /* SINGLE POST */
@@ -396,4 +394,14 @@ article.post {
 }
 .comment-form .form-control {
 	background-color: rgb(240,240,240);
+}
+
+/* Cookie Notice Plugin */
+#cookie-notice .button {
+	padding: 3px 5px;
+	background-color: #333;
+	color: #fff;
+}
+#cookie-notice .button:hover {
+	background-color: rgba(10,10,10,0.6);
 }

@@ -160,8 +160,8 @@ $args = array(
 	'nopaging' => true,
 	'post_status' => null,
 	'post_parent' => $post->ID,
-//	'orderby' => 'menu_order',
-//	'order' => 'ASC'
+	'orderby' => 'menu_order',
+	'order' => 'ASC'
 );
 $attachments = get_posts($args);
 $p_imgs_out = ''; // container for horozontal slider
@@ -173,26 +173,30 @@ if ( $attachments ) {
 		if ( $img_type == 'image/png' || $img_type == 'image/jpeg' || $img_type == 'image/gif' ) {
 		// testing if the attachment is an image
 			$count_img++;
-			$img_class = ( $count_img == 1 ) ? ' class="current"' : '';
-			//$img_vars = wp_get_attachment_image_src($attachment->ID,'large' );
-			// horizontal slider
-			//$img_src = wp_get_attachment_image_url($attachment->ID,'h300' );
-			//$p_imgs_out .= "<img".$img_class." src='".$img_src."' />";
-			// thumbnail gallery
+			$img_class = ( $count_img == 1 ) ? ' current' : '';
+			// horizontal slider & thumbnail gallery
 			$img_src = wp_get_attachment_image_url($attachment->ID,'large' );
-			$thumb_src = wp_get_attachment_image_url($attachment->ID,'h50' );
-			//array_push($p_imgs, "<img src='{$img_vars[0]}' width='{$img_vars[1]}' height='{$img_vars[2]}' />");
-			$p_imgs_nav_out .= "<li><a class='project-thumb' href='".$img_src."'><img".$img_class." src='".$thumb_src."' height='50px' alt='Thumbnail' /></a></li>";
+			$thumb_src = wp_get_attachment_image_url($attachment->ID,'h300' );
+			$p_imgs_nav_out .= "<a class='project-thumb".$img_class."' href='".$img_src."'><img src='".$thumb_src."' height='150px' alt='Thumbnail' /></a>";
 		}
 	}
 }
-$p_imgs_out = ( $p_imgs_out != '' ) ? '<div class="slides">'.$p_imgs_out.'</div>' : '';
 if ( $p_imgs_nav_out != '' ) {
-	$p_imgs_nav_out = '<nav class="col-md-7"><ul id="project-imgs-nav" class="list-inline pull-right">'.$p_imgs_nav_out.'</ul></nav>';
-	$header_text_class = "col-md-4";
+	$p_imgs_nav_out = '
+		<div id="entry-gallery" class="container-fluid">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="slide-wrap">
+						<a href="#" class="slide-arrow slide-arrow-left"><i class="fa fa-4x fa-angle-left" aria-hidden="true"></i></a>
+						<a href="#" class="slide-arrow slide-arrow-right"><i class="fa fa-4x fa-angle-right" aria-hidden="true"></i></a>
+						<div id="project-imgs-nav" class="slides">'.$p_imgs_nav_out.'</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	';
 } else {
 	$p_imgs_nav_out = '';
-	$header_text_class = "col-md-11";
 }
 ?>
 
@@ -201,18 +205,19 @@ if ( $p_imgs_nav_out != '' ) {
 		<div class="wrap-inner vspace">
 		<div class="container">
 			<div id="entry-header" class="row">
-				<div class="<?php echo $header_text_class; ?>">
+				<div class="col-md-11">
 				<?php the_title( '<h1 class="pez-bg main-tit">', '</h1>' ); ?>
 				<?php if ( get_edit_post_link() )
 					edit_post_link('<span class="edit-link">'.esc_html__( 'Edit', '_s' ).'</span>');
 				echo $bgi_desc_out; ?>
 				</div>
-				<?php echo $p_imgs_nav_out; ?>
 			</div>
 		</div>
 		</div>
 		<?php echo $js_out; ?>
 	</header><!-- .entry-header -->
+
+	<?php echo $p_imgs_nav_out; ?>
 
 	<div id="entry-content" class="container">
 		<?php if ( $p_imgs_out != '' ) { ?>
